@@ -80,7 +80,7 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push new image to Docker Hub
       run: |
-        docker push chucthien03/golden-owl:${{ needs.build.outputs.time }}
+        docker push chucthien03/golden-owl:${{ steps.set-timestamp.outputs.time }}
         docker push chucthien03/golden-owl:latest
       
 
