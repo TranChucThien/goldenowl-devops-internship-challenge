@@ -95,10 +95,11 @@ jobs:
         # Remove unused images with the same name
         docker images chucthien03/golden-owl -q | xargs -r docker rmi -f
         # Run the new container
-        docker run -dp 80:3000 -p 443:3000 --name my-container chucthien03/golden-owl:${{ steps.set-timestamp.outputs.time }}
+        docker run -dp 80:3000 -p 443:3000 --name my-container chucthien03/golden-owl:latest
         # Verify the container and image
         docker ps
         docker images
+
     - name: Verify Deployment Health
       run: |
         curl -f http://localhost || echo "Deployment failed"
