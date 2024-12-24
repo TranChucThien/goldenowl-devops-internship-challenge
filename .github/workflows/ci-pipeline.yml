@@ -47,7 +47,7 @@ jobs:
         docker images chucthien03/golden-owl -q | xargs -r docker rmi -f
 
         # Run the new container
-        docker run -dp 3000:3000 --name my-container chucthien03/golden-owl:${{ needs.build.outputs.time }}
+        docker run -dp 80:3000 -p 443:3000 --name my-container chucthien03/golden-owl:${{ needs.build.outputs.time }}
 
         # Verify the container and image
         docker ps
