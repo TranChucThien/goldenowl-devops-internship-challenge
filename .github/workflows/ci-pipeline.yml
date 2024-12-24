@@ -11,17 +11,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      time: ${{ steps.set-timestamp.outputs.time }}
+
     steps:
     - uses: actions/checkout@v4
 
-    # Bước thiết lập biến Time
     - name: Set Timestamp Variable
       id: set-timestamp
-      run: echo "Time=$(date +%s)" >> $GITHUB_ENV
+      run: echo "::set-output name=time::$(date +%s)"
 
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag chucthien03/golden-owl:${{ env.Time }}
+        docker build . --file Dockerfile --tag chucthien03/golden-owl:${{ steps.set-timestamp.outputs.time }}
         docker images
       working-directory: ./src
 
@@ -29,4 +31,24 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Push new image to Docker Hub
-      run: docker push chucthien03/golden-owl:${{ env.Time }}
+      run: docker push chucthien03/golden-owl:${{ steps.set-timestamp.outputs.time }}
+
+  deploy:
+    runs-on: self-hosted
+    needs: build  # Ensures 'deploy' runs after 'build'
+
+    steps:
+    - name: Replace the old image
+      run: |
+        # Stop and remove the old container
+        docker rm -f my-container || true
+
+        # Remove unused images with the same name
+        docker images chucthien03/golden-owl -q | xargs -r docker rmi -f
+
+        # Run the new container
+        docker run -dp 3000:3000 --name my-container chucthien03/golden-owl:${{ needs.build.outputs.time }}
+
+        # Verify the container and image
+        docker ps
+        docker images
