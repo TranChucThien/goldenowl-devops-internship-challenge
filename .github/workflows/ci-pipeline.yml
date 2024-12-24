@@ -7,39 +7,26 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
-env:
-  Time: $(date +%s)
-
 jobs:
-  # scan_code:
-  #   name: SonarQube Scanning
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     - name: SonarQube Cloud Scan
-  #       uses: SonarSource/sonarcloud-github-action@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
   build:
     runs-on: ubuntu-latest
-   
 
     steps:
     - uses: actions/checkout@v4
+
+    # Bước thiết lập biến Time
+    - name: Set Timestamp Variable
+      id: set-timestamp
+      run: echo "Time=$(date +%s)" >> $GITHUB_ENV
+
     - name: Build the Docker image
       run: |
-       docker build . --file Dockerfile --tag chucthien03/golden-owl:${{env.Time}}
-       dockerr images
+        docker build . --file Dockerfile --tag chucthien03/golden-owl:${{ env.Time }}
+        docker images
       working-directory: ./src
-      
+
     - name: Authenticate with Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      
-    - name: Push new image to Docker Hub
-      run: docker push chucthien03/golden-owl:${{env.Time}}
 
-    # deploy:
-      
+    - name: Push new image to Docker Hub
+      run: docker push chucthien03/golden-owl:${{ env.Time }}
