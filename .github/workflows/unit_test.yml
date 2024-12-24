@@ -1,0 +1,29 @@
+name: CI Pipeline for Feature Branches
+
+on:
+  push:
+    branches:
+      - "feature/*"  # Trigger workflow for branches matching feature/*
+  pull_request:
+    branches:
+      - "feature/*"  # Trigger workflow for PRs targeting feature/*
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Run Tests
+      run: npm test
