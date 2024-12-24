@@ -30,7 +30,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag chucthien03/golden-owl:${{env.Time}}
+      run: |
+       - docker build . --file Dockerfile --tag chucthien03/golden-owl:${{env.Time}}
+       - dockerr images
       working-directory: ./src
       
     - name: Authenticate with Docker Hub
