@@ -1,5 +1,5 @@
 
-name: CD
+name: Pipeline Production
 
 on:
   push:
@@ -14,18 +14,14 @@ permissions:
   contents: read
   security-events: write
 jobs:
-  deploy_test_env:
+  deploy_prod_env:
       runs-on: production
       steps:
       - name: Replace the old image
         run: |
-          # Stop and remove the old container
           docker rm -f my-container || true
-          # Remove unused images with the same name
           docker images chucthien03/golden-owl -q | xargs -r docker rmi -f
-          # Run the new container
           docker run -dp 80:3000 -p 443:3000 --name my-container chucthien03/golden-owl:latest
-          # Verify the container and image
           docker ps
           docker images
 
