@@ -18,6 +18,9 @@ The repository is structured to facilitate a hands-on DevOps challenge. The main
      - This file defines the CD pipeline for the main branch. It deploys the application to the production environment by replacing old Docker containers and verifying the deployment.
 
 ### Expected Deliverables
+<p align="center">
+    <img src="./images/flow_chart.drawio.png" alt="CICD Pipeline" />
+<p>
 - A fully provisioned infrastructure with the sample application running.
 - A working CI/CD pipeline for building, testing, and deploying the application.
 - Documentation of steps and any challenges faced during execution.
