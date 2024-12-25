@@ -1,45 +1,36 @@
-# Golden Owl DevOps Internship - Technical Test
-At Golden Owl, we believe in treating infrastructure as code and automating resource provisioning to the fullest extent possible. 
+# Golden Owl DevOps Internship Challenge
 
-In this technical test, we challenge you to create a robust CI build pipeline using GitHub Actions. You have the freedom to complete this test in your local environment.
+This document explains the structure and components of the GitHub repository for the Golden Owl DevOps Internship Challenge.
 
-## Your Mission 🌟
-Your mission, should you choose to accept it, is to craft a CI job that:
-1. Forks this repository to your personal GitHub account.
-2. Dockerizes a Node.js application.
-3. Establishes an automated CI/CD build process using GitHub Actions workflow and a container registry service such as DockerHub or Amazon Elastic Container Registry (ECR) or similar services.
-4. Initiates CI tests automatically when changes are pushed to the feature branch on GitHub.
-5. Utilizes GitHub Actions for Continuous Deployment (CD) to deploy the application to major cloud providers like AWS EC2, AWS ECS or Google Cloud (please submit the deployment link).
-## Nice to have 🎨
-We would be genuinely delighted if you could complement your submission with a `visual flow diagram`, illustrating the sequence of tasks you performed, including the implementation of a `load balancer` and `auto scaling` for the deployed application. This additional touch would greatly enhance our understanding and appreciation of your work.
+## Repository Overview
 
-Reference tools for creating visual flow diagrams:
-- https://www.drawio.com/
-- https://excalidraw.com/
-- https://www.eraser.io/
-  
-Including a visual representation of your workflow will provide valuable insights into your approach and make your submission stand out. Thank you for considering this enhancement! 
-## The Bigger Picture 🌏
-This test is designed to evaluate your ability to implement modern automated infrastructure practices while demonstrating a basic understanding of Docker containers. In your solution, we encourage you to prioritize readability, maintainability, and the principles of DevOps.
+The repository is structured to facilitate a hands-on DevOps challenge. The main objective is to provide an environment for learning and demonstrating skills in key DevOps areas such as infrastructure automation, CI/CD pipelines, and monitoring.
 
- ## Submission Guidelines 📬
-Your solution should be showcased in a public GitHub repository. We encourage you to commit early and often. We prefer to see a history of iterative progress rather than a single massive push. When you've completed the assignment, kindly share the URL of your repository with us.
+### Key Files and Directories
 
- ## Running the Node.js Application Locally  🏃‍♂️
- This is a Node.js application, and running it locally is straightforward:
-- Navigate to the `src` directory by executing `cd src`.
-- Install the project's dependencies listed in the package.json file by running `npm i`.
-- Execute `npm test` to run the application's tests.
-- Start the HTTP server with `npm start`.
+1. **`src/Dockerfile/`**:
+   - Contains Dockerfiles and related configurations for containerizing applications.
 
-You can test it using the following command:
-  
-```shell
-curl localhost:3000
-```
-You should receive the following response:
-```json
-{"message":"Welcome warriors to Golden Owl!"}
-```
+2. **`.github/workflows/`**:
+   - **`pipeline-dev.yml`**:
+     - This file defines the CI pipeline for feature branches. It includes jobs for unit testing, SonarQube code analysis, Docker image building, Trivy vulnerability scanning, and deployment to a test environment.
+   - **`pipeline-prod.yml`**:
+     - This file defines the CD pipeline for the main branch. It deploys the application to the production environment by replacing old Docker containers and verifying the deployment.
 
-Are you ready to embark on this DevOps journey with us? 🚀 Best of luck with your assignment! 🌟# goldenowl-devops-internship-challenge
+### Expected Deliverables
+- A fully provisioned infrastructure with the sample application running.
+- A working CI/CD pipeline for building, testing, and deploying the application.
+- Documentation of steps and any challenges faced during execution.
+- **CI/CD Pipeline for Feature Branches**:
+  - A fully operational pipeline defined in `pipeline-dev.yml` that automates the following tasks:
+    - Unit testing for Node.js.
+    - SonarQube code analysis.
+    - Docker image building with tagged versions.
+    - Vulnerability scanning with Trivy.
+    - Deployment to a test environment (EC2).
+  - Successful execution of the pipeline for all `feature/*` branches.
+- **CD Pipeline for Production**:
+  - A production-ready pipeline defined in `pipeline-prod.yml` that automates:
+    - Deployment to the production environment (EC2 with load balacner and auto scaling).
+  - Successful execution of the pipeline for the `main` branch.
+
