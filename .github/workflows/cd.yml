@@ -15,7 +15,7 @@ permissions:
   security-events: write
 jobs:
   deploy_test_env:
-      runs-on: self-hosted
+      runs-on: production
       steps:
       - name: Replace the old image
         run: |
